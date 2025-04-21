@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>소방공무원 수당 자동계산기</title>
+    <style>
+        body {
+            font-family: '맑은 고딕', sans-serif;
+            margin: 20px;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        td, th {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        .highlight {
+            background-color: #f44336;
+            color: white;
+            font-weight: bold;
+        }
+        select {
+            padding: 5px;
+            width: 100%;
+            max-width: 200px;
+        }
+        .table-wrapper {
+            max-height: 400px;
+            overflow-y: auto;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>소방공무원 수당 자동계산기</h2>
+
+<div class="table-wrapper">
+<table>
+    <tr>
+        <td class="highlight">계급</td>
+        <td colspan="5">
+            <select id="rank" onchange="calculate()">
+                <option value="">선택하세요</option>
+                <option value="소방사">소방사</option>
+                <option value="소방교">소방교</option>
+                <option value="소방장">소방장</option>
+                <option value="소방위">소방위</option>
+                <option value="소방경">소방경</option>
+                <option value="소방령">소방령</option>
+                <option value="소방정">소방정</option>
+                <option value="소방준감">소방준감</option>
+                <option value="소방감">소방감</option>
+                <option value="소방정감">소방정감</option>
+                <option value="소방총감">소방총감</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>구조구급활동비</td><td id="activity1">0</td>
+        <td>방호활동비</td><td id="activity2">0</td>
+        <td>중요직무급</td><td id="important">0</td>
+    </tr>
+    <tr>
+        <td>직책급업무수행경비</td><td id="position">0</td>
+        <td>직급보조비</td><td id="assist">0</td>
+        <td>정액급식비</td><td id="meal">0</td>
+    </tr>
+    <tr>
+        <td>위험근무수당</td><td id="risk">0</td>
+        <td>위험근무수당 가산금</td><td id="riskBonus">0</td>
+        <td>특수직무수당(화재진화)</td><td id="fire">0</td>
+    </tr>
+    <tr>
+        <td>의료업무수당<br>(제1감염병 발생 시)</td><td id="medical" colspan="5">0</td>
+    </tr>
+</table>
+</div>
+
+<script>
+function calculate() {
+    const rank = document.getElementById('rank').value;
+
+    const data = {
+        '소방사': [200000, 170000, 100000, 0, 175000, 140000, 60000, 10000, 80000, 100000],
+        '소방교': [200000, 170000, 100000, 0, 175000, 140000, 60000, 10000, 80000, 100000],
+        '소방장': [200000, 170000, 100000, 0, 180000, 140000, 60000, 10000, 80000, 100000],
+        '소방위': [200000, 170000, 100000, 0, 185000, 140000, 60000, 10000, 80000, 100000],
+        '소방경': [200000, 170000, 100000, 100000, 250000, 140000, 60000, 10000, 80000, 100000],
+        '소방령': [200000, 170000, 150000, 100000, 400000, 140000, 60000, 10000, 80000, 100000],
+        '소방정': [200000, 170000, 200000, 350000, 500000, 140000, 60000, 10000, 80000, 100000],
+        '소방준감': [0, 0, 0, 600000, 650000, 140000, 60000, 10000, 80000, 100000],
+        '소방감': [0, 0, 0, 0, 750000, 140000, 60000, 10000, 80000, 100000],
+        '소방정감': [0, 0, 0, 0, 950000, 140000, 60000, 10000, 80000, 100000],
+        '소방총감': [0, 0, 0, 0, 0, 140000, 60000, 10000, 80000, 100000]
+    };
+
+    if(rank && data[rank]) {
+        const [activity1, activity2, important, position, assist, meal, risk, riskBonus, fire, medical] = data[rank];
+
+        document.getElementById('activity1').innerText = activity1.toLocaleString();
+        document.getElementById('activity2').innerText = activity2.toLocaleString();
+        document.getElementById('important').innerText = important.toLocaleString();
+        document.getElementById('position').innerText = position.toLocaleString();
+        document.getElementById('assist').innerText = assist.toLocaleString();
+        document.getElementById('meal').innerText = meal.toLocaleString();
+        document.getElementById('risk').innerText = risk.toLocaleString();
+        document.getElementById('riskBonus').innerText = riskBonus.toLocaleString();
+        document.getElementById('fire').innerText = fire.toLocaleString();
+        document.getElementById('medical').innerText = medical.toLocaleString();
+    } else {
+        document.querySelectorAll("td[id]").forEach(el => el.innerText = "0");
+    }
+}
+</script>
+
+</body>
+</html>
